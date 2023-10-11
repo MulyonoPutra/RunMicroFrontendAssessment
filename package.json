@@ -69,5 +69,11 @@
   },
   "nx": {
     "targets": {}
-  }
+  },
+  "activationEvents": [
+    "onView:nx-console",
+    "workspaceContains:workspace.json",
+    "workspaceContains:angular.json",
+    "workspaceContains:nx.json"
+  ]
 }
