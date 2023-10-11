@@ -7,6 +7,13 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
+    children: [
+      {
+        path: 'users',
+        loadComponent: () => import('../@modules/users/user-collections/user-collections.component')
+          .then(modules => modules.UserCollectionsComponent)
+      },
+    ]
   }
 ];
 

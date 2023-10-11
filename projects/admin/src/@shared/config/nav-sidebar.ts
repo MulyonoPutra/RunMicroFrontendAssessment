@@ -46,7 +46,7 @@ export const navSidebar: Sidebar[] = [
     ],
   },
   {
-    routeLink: 'user-collections',
+    routeLink: 'users',
     icon: 'fal fa-home',
     label: 'User',
     role: 'admin',
