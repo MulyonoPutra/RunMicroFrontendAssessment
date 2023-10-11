@@ -4,7 +4,7 @@
   margin-left: 5rem;
   z-index: 1;
   transition: all .5s ease;
-  background: #f4f7f4;
+  background: #ccd1cc;
   padding: 1rem 1.5rem 0 1.5rem;
   position: fixed;
   top: 0;
@@ -14,9 +14,11 @@
     border-radius: 0.635rem;
     box-shadow: 0px 0px 10px 0 rgb(34 41 47 / 10%);
     padding: 0.813rem 1.563rem;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 95%;
 
     .head-content-left {
       .search-container {
