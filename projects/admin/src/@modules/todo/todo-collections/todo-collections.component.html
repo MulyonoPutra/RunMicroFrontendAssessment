@@ -12,21 +12,30 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
           <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
         </ng-container>
-Z
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+
+        <ng-container matColumnDef="userId">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> User ID </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.userId}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+          <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
           <mat-header-cell mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-          <mat-cell  mat-cell *matCellDef="let element; let i = index">
+          <mat-cell mat-cell *matCellDef="let element; let i = index">
 
-            <button mat-icon-button class="material-icons app-toolbar-menu save-button" matTooltip="Edit"
+            <button (click)="edit(element.id)" mat-icon-button class="material-icons app-toolbar-menu save-button" matTooltip="Edit"
               color="primary">
               <i class="fa fa-edit" aria-hidden="true"></i>
             </button>
-          </mat-cell >
+            <button (click)="delete(element.id)" mat-icon-button class="material-icons app-toolbar-menu save-button" matTooltip="Edit"
+              color="primary">
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -34,7 +43,11 @@ Z
         </mat-row>
       </mat-table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      <mat-paginator [pageSizeOptions]="[5]"
+      [length]="totalRecords"
+      (page)="$event; onPaginateChange($event)"
+      [pageSize]="pageSize"
+      showFirstLastButtons></mat-paginator>
     </div>
   </mat-card-content>
 </mat-card>

@@ -1,45 +1,44 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MaterialModule } from 'material/src/lib/material.module';
 import { Router } from '@angular/router';
-import { User } from 'projects/admin/src/@core/domain/user';
-import { UserService } from 'projects/admin/src/@core/services/user.service';
+import { MaterialModule } from 'material/src/lib/material.module';
+import { Todo } from 'projects/admin/src/@core/domain/todo';
+import { TodoService } from 'projects/admin/src/@core/services/todo.service';
 
 @Component({
-  selector: 'app-user-collections',
+  selector: 'app-todo-collections',
   standalone: true,
   imports: [CommonModule, MaterialModule],
-  templateUrl: './user-collections.component.html',
-  styleUrls: ['./user-collections.component.scss']
+  templateUrl: './todo-collections.component.html',
+  styleUrls: ['./todo-collections.component.scss']
 })
-export class UserCollectionsComponent implements OnInit, OnDestroy {
-  users!: User[];
-  dataSource!: MatTableDataSource<User>;
+export class TodoCollectionsComponent implements OnInit, OnDestroy {
   private destroySubject = new Subject<void>();
-  displayedColumns = ['id', 'name', 'action'];
+  public todos!: Todo[];
+  public dataSource!: MatTableDataSource<Todo>;
+  public displayedColumns = ['id', 'userId', 'title', 'action'];
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   totalRecords: number = 0;
   pageSize: number = 5;
 
-
-  constructor(private _userService: UserService, private readonly router: Router) { }
+  constructor(private _todoService: TodoService, private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.findAllUsers();
+    this.findAll();
   }
 
-  findAllUsers(): void {
-    this._userService.findAll().pipe(takeUntil(this.destroySubject)).subscribe({
-      next: (users) => {
-        this.users = users;
-        this.dataSource = new MatTableDataSource(this.users);
+  findAll(): void {
+    this._todoService.findAll().pipe(takeUntil(this.destroySubject)).subscribe({
+      next: (todo) => {
+        this.todos = todo;
+        this.dataSource = new MatTableDataSource(this.todos);
         this.totalRecords = this.dataSource.data.length;
         this.dataSource.paginator = this.paginator;
       }
@@ -48,7 +47,7 @@ export class UserCollectionsComponent implements OnInit, OnDestroy {
 
   onPaginateChange(event: any) {
     if (event.pageIndex == Math.ceil(this.totalRecords / this.pageSize) - 1) {
-      let apiRes = this.users;
+      let apiRes = this.todos;
       let oldRes = this.dataSource.data;
       let newRes = [...oldRes, ...apiRes];
 
@@ -65,7 +64,23 @@ export class UserCollectionsComponent implements OnInit, OnDestroy {
   }
 
   edit(id: string) {
-    this.router.navigateByUrl('/edit/' + id);
+    console.log(id);
+    this.router.navigateByUrl('/todo-form/' + id);
+  }
+
+  delete(id: string) {
+    this._todoService.remove(id).pipe(takeUntil(this.destroySubject))
+      .subscribe({
+        next: () => {
+          alert('Delete Successful');
+        },
+        error: (err: any) => {
+          console.error(err);
+        },
+        complete: () => {
+          this.findAll();
+        }
+      });
   }
 
   ngOnDestroy(): void {

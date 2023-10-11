@@ -6,9 +6,6 @@
       <i class="fal fa-times close-icon"></i>
     </button>
   </div>
-<!--   <div *ngIf="collapsed" class="grid place-items-center p-4">
-    <img class="border-2 border-white w-32 h-32 rounded-full" [src]=avatar alt="Large avatar">
-  </div> -->
   <div class="scrollwrap scrollwrap_delayed">
     <ul class="sidenav-nav">
       <li class="sidenav-nav-item" *ngFor="let data of navData">
@@ -40,6 +37,14 @@
             </app-sub-level-menu>
           </div>
         </ng-container>
+      </li>
+      <li class="sidenav-nav-item">
+        <a class="sidenav-nav-link"  href="http://localhost:4000/" target="_blank">
+          <i class="sidenav-link-icon" [class]="navData[0].icon"></i>
+          <span class="sidenav-link-text" @fadeInOut *ngIf="collapsed">
+            Dashboard
+          </span>
+        </a>
       </li>
     </ul>
   </div>

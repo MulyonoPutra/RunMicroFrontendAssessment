@@ -1,0 +1,13 @@
+<mat-card style="max-width: 90%;">
+  <mat-card-content>
+    <form [formGroup]="form">
+      <div class="grid-row">
+      <app-input-field label="ID" fieldName="id" [formGroup]="form"></app-input-field>
+      <app-input-field label="User ID" fieldName="userId" [formGroup]="form"></app-input-field>
+      <app-input-field label="Title" fieldName="title" [formGroup]="form"></app-input-field>
+      <mat-checkbox formControlName="completed">Completed</mat-checkbox>
+    </div>
+    <button class="save-btn" (click)="submit()" [disabled]='form.invalid'>Save</button>
+    </form>
+  </mat-card-content>
+</mat-card>
